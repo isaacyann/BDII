@@ -1,5 +1,6 @@
 Create database Livraria;
 use Livraria;
+drop database Livraria;
 CREATE TABLE Clientes (
     ClienteID INT AUTO_INCREMENT PRIMARY KEY,
     Nome VARCHAR(100) NOT NULL,
@@ -87,7 +88,7 @@ INSERT INTO ItensPedido (PedidoID, LivroID, Quantidade) VALUES
 (7, 10, 1);
 
 		-- Listar os Usuarios cadastrados no Banco
-select * from clientes;
+SELECT * FROM clientes;
 
 		-- Usuarios cadastrados no ultimo mês
 SELECT COUNT(*) AS NumeroDeClientes
@@ -96,13 +97,42 @@ WHERE Dia_cadastrado >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH);
 
 		-- Criar script restaurar informações de login de 1 usuário!
 
+UPDATE Clientes
+SET Nome = 'João Silva Ribeiro',
+	Senha = 1234567
+where ClienteID = 1;
 
 
 		-- Criar script selecão de Livros cadastrados?
         
+SELECT * FROM Livros;
+        
         
 		-- Criar script de livros emprestados por cliente?
         
+SELECT c.Nome NomeCliente, l.Titulo TituloLivro, ip.Quantidade Quantidade
+FROM Clientes c
+JOIN Pedidos p ON c.ClienteID = p.ClienteID
+JOIN ItensPedido ip ON p.PedidoID = ip.PedidoID
+JOIN Livros l ON ip.LivroID = l.LivroID
+WHERE c.ClienteID = 4;
+
+        
         
 		-- Elaborar 3 perguntas utilizando as clausulas: Distinct, Not , Top
+
+ -- Quais as diferentes editoras dos livros cadastrados?
+ 
+ SELECT DISTINCT Editora FROM Livros;
+ 
+ -- Quais livros não são da editora Rocco
+SELECT Titulo, Autor, Editora, AnoPublicacao, Preco
+FROM Livros
+WHERE Editora NOT LIKE 'Rocco';
+
+-- Quais são os 3 livros mais caro?
+SELECT TOP 3 Titulo, Preco
+FROM Livros
+ORDER BY Preco DESC;
+
 
